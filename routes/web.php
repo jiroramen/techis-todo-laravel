@@ -9,31 +9,28 @@ use App\Http\Controllers\Auth\RegisterController;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-
+// 認証ルート
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
+// パスワードリセット（必要な場合）
+Route::get('/password/reset', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/password/email', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/password/reset/{token}', [App\Http\Controllers\Auth\ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/password/reset', [App\Http\Controllers\Auth\ResetPasswordController::class, 'reset'])->name('password.update');
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/tasks', [App\Http\Controllers\TaskController::class, 'index']);
-Route::post('/create', [App\Http\Controllers\TaskController::class, 'create']);
-Route::post('/delete/{taskId}', [App\Http\Controllers\TaskController::class, 'delete']);
 
 # 以下、演習問題
 
@@ -50,7 +47,7 @@ Route::get('/quiz4', [QuizController::class, 'quiz4_show']);
 Route::get('/quiz5', [QuizController::class, 'login']);
 
 Route::get('/quiz6_main', function () {
-    return view('common.main');
+    return view ('common.main');
 });
 
 Route::get('/quiz6', [QuizController::class, 'quiz6_show'])->name('quiz6_test');
@@ -67,7 +64,7 @@ Route::post('/quiz9/{id}', [QuizController::class, 'quiz9_show'])->name('quiz9_t
 Route::get('/quiz10', [QuizController::class, 'quiz10_show'])->name('quiz10_test');
 
 // クイズの登録処理
-Route::post('/quiz10/store', [QuizController::class, 'quiz10_store'])->name('quiz10_test2');
+Route::post('/quiz10/store', [QuizController::class, 'quiz10_store']) ->name('quiz10_test2');
 
 // 読込処理①-1
 Route::get('/quiz11/all', [QuizController::class, 'quiz11_show_all']);
