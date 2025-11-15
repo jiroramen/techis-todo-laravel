@@ -30,7 +30,9 @@ Route::post('/password/reset', [App\Http\Controllers\Auth\ResetPasswordControlle
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/tasks', [App\Http\Controllers\TaskController::class, 'index']);
+Route::get('/tasks', [App\Http\Controllers\TaskController::class, 'index'])->name('tasks.index');
+Route::post('/tasks/create', [App\Http\Controllers\TaskController::class, 'create'])->name('tasks.create');
+Route::post('/tasks/delete/{taskId}', [App\Http\Controllers\TaskController::class, 'delete'])->name('tasks.delete');
 
 # 以下、演習問題
 
