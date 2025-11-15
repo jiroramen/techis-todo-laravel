@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +20,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -41,7 +50,7 @@ Route::get('/quiz4', [QuizController::class, 'quiz4_show']);
 Route::get('/quiz5', [QuizController::class, 'login']);
 
 Route::get('/quiz6_main', function () {
-    return view ('common.main');
+    return view('common.main');
 });
 
 Route::get('/quiz6', [QuizController::class, 'quiz6_show'])->name('quiz6_test');
@@ -58,7 +67,7 @@ Route::post('/quiz9/{id}', [QuizController::class, 'quiz9_show'])->name('quiz9_t
 Route::get('/quiz10', [QuizController::class, 'quiz10_show'])->name('quiz10_test');
 
 // クイズの登録処理
-Route::post('/quiz10/store', [QuizController::class, 'quiz10_store']) ->name('quiz10_test2');
+Route::post('/quiz10/store', [QuizController::class, 'quiz10_store'])->name('quiz10_test2');
 
 // 読込処理①-1
 Route::get('/quiz11/all', [QuizController::class, 'quiz11_show_all']);
